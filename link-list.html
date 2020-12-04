@@ -1,0 +1,112 @@
+<script>
+  // 创建节点
+  function createNode(val) {
+    return {
+      next: null,
+      val: val,
+    };
+  }
+  //数组转链表
+  //从前往后转
+  function arrayToList(ary) {
+    let dummy = createNode(0);
+    let prev = dummy;
+    for (let i = 0; i < ary.length; i++) {
+      let node = createNode(ary[i]);
+      prev.next = node;
+      prev = node;
+      // prev = prev.next
+    }
+    return dummy.next;
+  }
+  //从后往前转
+  function arrayToList2(ary) {
+    let prev = null;
+    for (let i = ary.length - 1; i >= 0; i--) {
+      let node = createNode(ary[i]);
+      node.next = prev;
+      prev = node;
+    }
+    return prev;
+  }
+  //递归转， 时间复杂度 空间复杂度 都为平方
+  function arrayToListRecu(ary) {
+    if (ary.length == 0) {
+      return null;
+    }
+    let head = createNode(ary[0]);
+    head.next = arrayToListRecu(ary.slice(1));
+    return head;
+  }
+  //由数组的start位置开始，用剩余参数创建链表
+  //时间复杂度 空间复杂度都为n
+  function arrayToListRecu2(ary, start) {
+    if (start == ary.length) {
+      return null;
+    }
+    let head = createNode(ary[start]);
+    head.next = arrayToListRecu2(ary, start + 1);
+    return head;
+  }
+
+  //链表转数组
+  function listToAry(l) {
+    let ary = [];
+    while (l) {
+      //l还指向结点的时候就继续
+      ary.push(l.val);
+      l = l.next;
+    }
+    return ary;
+  }
+  //递归转数组
+  function listToAryRecu(l) {
+    if (l == null) {
+      return [];
+    }
+    let ary = [l.val];
+    let tail = l.next;
+    let tailAry = listToAryRecu(tail);
+    ary.concat(tailAry);
+    return ary;
+  }
+  //在链表末尾增加节点
+  function append(val, head) {
+    let node = createNode(val);
+    if (!head) {
+      return node;
+    }
+    let p = head;
+    while (p.next) {
+      p = p.next;
+    }
+    p.next = node;
+    return head;
+  }
+
+  //寻找链表中下标为 idx 的值
+  function nth(l, idx) {
+    if (!l) {
+      return undefined;
+    }
+    let p = l;
+    for (var i = 0; p.next && i < idx; i++) {
+      p = p.next;
+    }
+    if (i == idx) {
+      return p.val;
+    } else {
+      return undefined;
+    }
+  }
+  //递归 寻找链表中下标为 idx 的值
+  function nthRecu(l, idx) {
+    if (idx == 0) {
+      return l.val;
+    }
+    if (l == null) {
+      return undefined;
+    }
+    return nthRecu(l.next, idx - 1);
+  }
+</script>
