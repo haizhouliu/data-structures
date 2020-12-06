@@ -1,0 +1,116 @@
+<script>
+  function swap(ary, i, j) {
+    let t = ary[i];
+    ary[i] = ary[j];
+    ary[j] = t;
+  }
+  function randomArray(l) {
+    return Array(l)
+      .fill(0)
+      .map((it) => (Math.random() * l) | 0);
+  }
+  //冒泡排序 就地调整数组
+  //外层循环控制交换范围，
+  //内层循环从零开始比较自身和下一个值大小
+  //每一轮后，大的排在数组末尾
+  function bubbleSort(ary) {
+    for (let i = ary.length - 2; i >= 0; i--) {
+      let swapped = false;
+      for (let j = 0; j <= i; j++) {
+        if (ary[j] > ary[j + 1]) {
+          swapped = true;
+          swap(ary, j, j + 1);
+        }
+      }
+      if (swapped == false) {
+        break;
+      }
+    }
+    return ary;
+  }
+  //插入排序 就地调整数组
+  function insertSort(ary) {
+    for (let i = 1; i < ary.length; i++) {
+      for (let j = i; j >= 1; j--) {
+        if (ary[j] < ary[j - 1]) {
+          swap(ary, j, j - 1);
+        } else {
+          break;
+        }
+      }
+    }
+    return ary;
+  }
+  //归并排序 没有办法就地排序
+  //主体思想 将数组一分为二，各自排序，然后合并
+  function mergeSort(ary) {
+    if (ary.length == 0 || ary.length == 1) {
+      return [...ary];
+    }
+    let mid = ary.length >> 1;
+    let leftAry = ary.slice(0, mid);
+    let rightAry = ary.slice(mid);
+
+    let leftSortedAry = mergeSort(leftAry);
+    let rightSortedAry = mergeSort(rightAry);
+    let result = [];
+    let i = 0;
+    let j = 0;
+    while (i < leftSortedAry.length && j < rightSortedAry.length) {
+      if (leftSortedAry[i] < rightSortedAry[j]) {
+        result.push(leftSortedAry[i++]);
+      } else {
+        result.push(rightSortedAry[j++]);
+      }
+    }
+    while (i < leftSortedAry.length) {
+      result.push(leftSortedAry[i++]);
+    }
+    while (j < rightSortedAry.length) {
+      result.push(rightSortedAry[j++]);
+    }
+    return result;
+  }
+  //选择排序
+  //主体思想 每轮选择无序范围内最小的元素放在有序范围的最后
+  function selectSort(ary) {
+    for (let i = 0; i < ary.length - 1; i++) {
+      let minIdx = i; //把当前值当成最小值，但只记录下标
+      for (let j = i + 1; j < ary.length; j++) {
+        if (ary[j] < ary[minIdx]) {
+          minIdx = j;
+        }
+      }
+      if (minIdx !== i) {
+        swap(ary, minIdx, i);
+      }
+    }
+    return ary;
+  }
+  //快速排序
+  // 经过一次排序后，哨兵元素左边的值小于哨兵元素，右边大于等于哨兵元素
+  function quickSort(ary, left = 0, right = ary.length - 1) {
+    if (right - left < 1) {
+      return ary;
+    }
+    let pivotIdx = Math.floor(Math.random() * (right - left + 1) + left);
+    let pivot = ary[pivotIdx];
+    swap(ary, pivotIdx, right);
+
+    let i = left - 1;
+    for (let j = left; j < right; j++) {
+      //j不需要等于right,因为right为哨兵元素
+      if (ary[j] < pivot) {
+        i++;
+        swap(ary, j, i);
+      }
+    }
+    i++;
+    swap(ary, i, right);
+
+    quickSort(ary, left, i - 1);
+    quickSort(ary, i + 1, right);
+
+    return ary;
+  }
+</script>
