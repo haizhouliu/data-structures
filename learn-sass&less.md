@@ -1,0 +1,12 @@
+- preprocessor (预处理器)
+- sass转换网址(https://www.sassmeister.com/)
+- **less** js
+- sass Ruby C
+  - sass (缩进，无花括号)
+  - **SCSS** (扩展名，有花括号)
+
+- scss声明变量的方式
+  - $slider-width: 500px;
+  - 支持 // 注释
+- scss loop
+- **选择器嵌套**

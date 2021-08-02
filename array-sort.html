@@ -88,6 +88,8 @@
     return ary;
   }
   //快速排序
+  //对数组的left到right之间(包含)的数进行快速排序
+  //存在的问题：对于所有元素都相同的数组会导致递归爆栈
   // 经过一次排序后，哨兵元素左边的值小于哨兵元素，右边大于等于哨兵元素
   function quickSort(ary, left = 0, right = ary.length - 1) {
     if (right - left < 1) {
@@ -112,5 +114,17 @@
     quickSort(ary, i + 1, right);
 
     return ary;
+  }
+
+  function deepClone(obj) {
+    if (obj && typeof obj == "object") {
+      var result = {};
+      for (let key in obj) {
+        result[key] = deepClone(obj[key]);
+      }
+      return result;
+    } else {
+      return obj;
+    }
   }
 </script>
